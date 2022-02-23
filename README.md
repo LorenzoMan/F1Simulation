@@ -8,6 +8,7 @@ To stay on a low budget cap, we are going to use the following devices:
 - Motor Shield L298N x1
 - Brushless Motors 12v x3
 - Esp8266 x1
+- 12v Power Supply x1
 
 We are using 3D printed actuators:
 https://www.youtube.com/watch?v=NLscbeoIjAY&t=111s&ab_channel=Retsetman
