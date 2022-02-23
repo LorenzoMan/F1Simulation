@@ -1,19 +1,15 @@
 #include <ESP8266WiFi.h>
-#include<SoftwareSerial.h>
+#include <SoftwareSerial.h>
 #include <ArduinoJson.h>
 #include <WebSocketsClient.h>
 #include <SocketIOclient.h>
 #include <Hash.h>
 
-const char* ssid="Livebox-8FE2";
-const char* password="xVJCxFCva3zP5Xtpg6";
-//const char* ssid = "Galaxy S10+5909";
-//const char* password = "ibdr9540";
+const char* ssid= //Your Internet Box Name;
+const char* password= //Your Internet Box Password;
 
 SoftwareSerial check(3, 1);
 SocketIOclient socketIO;
-
-//#define USE_SERIAL Serial
 
 void socketIOEvent(socketIOmessageType_t type, uint8_t * payload, size_t length) {
     switch(type) {
@@ -28,7 +24,6 @@ void socketIOEvent(socketIOmessageType_t type, uint8_t * payload, size_t length)
         case sIOtype_EVENT:
             //USE_SERIAL.printf("[IOc] get event: %s\n", payload);
             check.write((char*)payload);
-            //Serial.println(test);
             delay(2);
             break;
         case sIOtype_ACK:
@@ -55,22 +50,18 @@ void setup() {
   pinMode(LED_BUILTIN, OUTPUT);
 
   check.begin(19200);
-  //Serial.begin(115200);
-  //Serial.println();
-  //Serial.print("Wifi connecting to ");
-  //Serial.println( ssid );
-
-  //Serial.setDebugOutput(true);
+  Serial.println();
+  Serial.print("Wifi connecting to ");
+  Serial.println( ssid );
 
   WiFi.begin(ssid, password);
-  //Serial.print("Connecting");
+  Serial.print("Connecting");
 
   while ( WiFi.status() != WL_CONNECTED ) {
     delay(500);
-    //Serial.print(".");
+    Serial.print(".");
   }
-  //socketIO.begin("192.168.196.162", 8080, "/socket.io/?EIO=4");
-  socketIO.begin("192.168.1.14", 8080, "/socket.io/?EIO=4");
+  socketIO.begin("IP adress of the computer receiving UDP data from the game", "Port", "/socket.io/?EIO=4");
   delay(2000);
   socketIO.onEvent(socketIOEvent);
 }
